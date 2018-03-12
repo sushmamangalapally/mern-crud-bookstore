@@ -27,7 +27,7 @@ var server = http.createServer(app);
 
 server.listen(port);
 server.on('error', onError);
-sever.on('listening', onListening);
+server.on('listening', onListening);
 
 /* 
 * Normalize a port into a number, string, or false.
@@ -38,7 +38,7 @@ function normalizePort(val){
 	if(isNaN(port)){
 		return val
 	}
-	if(port > = 0){
+	if(port >= 0){
 		return port;
 	}
 	return false;
@@ -71,6 +71,6 @@ function onError(error){
 
 function onListening(){
 	var addr = server.address();
-	var bind = typeof add === 'string'; ? 'pipe' + addr : 'port'+addr.port;
+	var bind = typeof add === 'string' ? 'pipe' + addr : 'port'+addr.port;
 	debug('Listening on '+bind);
 }

@@ -3,6 +3,11 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://localhost/mern-crud-bookstore', { useMongoClient: true, promiseLibrary: require('bluebird') })
+  .then(() =>  console.log('connection succesful'))
+  .catch((err) => console.error(err));
 
 var book = require('./routes/book');
 var app = express();
@@ -13,6 +18,8 @@ app.use(bodyParser.urlencoded({'extended': 'false'}));
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.use('/api/book', book);
+// app.engine('html', require('ejs').renderFile);
+// app.set('view engine', 'html');
 
 //catch 404 and forward to error handler
 app.use(function(req,res,next){
@@ -30,6 +37,8 @@ app.use(function(err,req,res,next){
     //render the error page
     res.status(err.status || 500);
     res.render('error');
+    res.json({message:err.message,error:err})
+    
 })
 
 module.exports = app;
